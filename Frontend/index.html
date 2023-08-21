@@ -3,10 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hospital Management App</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.form-container {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.hidden {
+    display: none;
+}
+
+    </style>
 </head>
 <body>
-     <h1>wel come masai hospital</h1>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Signup & Login</a></li>
+                <li><a href="./onboard.html">Onboard Doctors</a></li>
+                <li><a href="./ddashboard.html">Doctor Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="signup-login">
+        <div class="form-container">
+            <h2>Login or Register</h2>
+            <h1>Login</h1>
+            <form id="login-form">
+                <input type="email" placeholder="Email" required id="email">
+                <input type="password" placeholder="Password" required id="password">
+                <input type="submit" >
+            </form>
+            <h1>Register</h1>
+            <form id="signup-form">
+                <input type="email" placeholder="Email" required id="remail">
+                <input type="password" placeholder="Password" required id="rpassword">
+                <input type="password" placeholder="Confirm Password" required id="rcpassword">
+                <input type="submit">
+            </form>
+        </div>
+    </section>
+
+    <script>
+       let formlogin=document.getElementById("login-form");
+        let email=document.getElementById('email')
+        let password=document.getElementById('password')
+
+ formlogin.addEventListener("submit",(e)=>{
+    e.preventDefault();
+   let obj={
+    email:email.value,
+    password:password.value
+   }
+   fetch("https://masaihospital-0so4.onrender.com/login",{
+    method:"POST",
+    headers:{
+        "Content-type":"application/json"
+    },
+    body:JSON.stringify(obj)
+   })
+   .then((res)=>{
+    return res.json();
+   })
+   .then((data)=>{
+    console.log(data)
+    if(data.token){
+     alert(data.msg);
+    
+      localStorage.setItem("token",JSON.stringify(data.token));
+      window.location.href="./onboard.html";
+ 
+    }
+    
+    
+   })
+ })
+
+ let formsignup=document.getElementById("signup-form");
+        let emails=document.getElementById('remail')
+        let passwords=document.getElementById('rpassword')
+        let cpasswords=document.getElementById('rcpassword')
+
+    formsignup.addEventListener("submit",(e)=>{
+    e.preventDefault();
+   let obj={
+    email:emails.value,
+    password:passwords.value,
+    conform_password:cpasswords.value
+   }
+   fetch("https://masaihospital-0so4.onrender.com/signup",{
+    method:"POST",
+    headers:{
+        "Content-type":"application/json"
+    },
+    body:JSON.stringify(obj)
+   })
+   .then((res)=>{
+    return res.json();
+   })
+   .then((data)=>{
+    console.log(data)
+     alert(data.msg);
+      window.location.href="./index.html";
+ 
+    
+    
+    
+   })
+ })
+ 
+ 
+    </script>
 </body>
 </html>
-

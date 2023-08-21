@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management App</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.form-container {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Signup & Login</a></li>
+                <li><a href="./onboard.html">Onboard Doctors</a></li>
+                <li><a href="./ddashboard.html">Doctor Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="signup-login">
+        <div class="form-container">
+            <h2>Doctors</h2>
+            <div id="main"></div>
+        
+        </div>
+    </section>
+
+    <script>
+      
+let main=document.getElementById('main')
+fetchdata()
+async function  fetchdata(){
+    try {
+        let res=await fetch('https://masaihospital-0so4.onrender.com/appointments')
+        let data=await res.json()
+        console.log(data)
+        display(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+ function display(data){
+    data.forEach(element => {
+        let div=document.createElement("div")
+        let image=document.createElement('img')
+        image.setAttribute('src',element.image)
+        let h3=document.createElement('h3')
+        h3.innerText=element.name
+        let specialization= document.createElement('p')
+        specialization.innerText=`specialization:${element.specialization}`
+        let experience= document.createElement('p')
+        experience.innerText=`experience:${element.experience}`
+        let location= document.createElement('p')
+        location.innerText=`location:${element.location}`
+        let date= document.createElement('p')
+        date.innerText=`date:${element.date}`
+        let slots= document.createElement('p')
+        slots.innerText=`slots:${element.slots}`
+        let fee= document.createElement('p')
+        fee.innerText=`fee:${element.fee}`
+
+        div.append(image,h3,specialization,experience,location,date,slots,fee)
+        main.append(div)
+
+    });
+ }
+</script>
+</body>
+</html>
+
+ 

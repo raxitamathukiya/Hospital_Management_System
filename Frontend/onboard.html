@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management App</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.form-container {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Signup & Login</a></li>
+                <li><a href="./onboard.html">Onboard Doctors</a></li>
+                <li><a href="./ddashboard.html">Doctor Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="signup-login">
+        <div class="form-container">
+            <h2>Onboard Doctors</h2>
+            
+            <form id="onboard">
+                <input type="text" placeholder="enter name" required id="name">
+                <input type="text" placeholder="enter image Url" required id="image">
+            <select name="specialization" id="specialization">
+                <option value="Cardiologist">Cardiologist</option>
+                <option value="Dermatologist">Dermatologist</option>
+                <option value="Pediatrician">Pediatrician</option>
+                <option value="Psychiatrist ">Psychiatrist </option>
+            </select>
+                <input type="number" placeholder="experience" required id="experience">
+                <input type="text" placeholder="location" required id="location1">
+                <input type="date" placeholder="date" required id="date">
+                <input type="number" placeholder="slots" required id="slots">
+                <input type="number" placeholder="fee" required id="fee">                
+                <input type="submit" >
+            </form>
+        </div>
+    </section>
+
+    <script>
+       let form=document.getElementById("onboard");
+        let name=document.getElementById('name')
+        let image=document.getElementById('image')
+        let specialization=document.getElementById('specialization')
+        let experience=document.getElementById('experience')
+        let location1=document.getElementById('location1')
+        let date=document.getElementById('date')
+        let slots=document.getElementById('slots')
+        let fee=document.getElementById('fee')
+
+ form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+   
+   let obj={
+    name:name.value,
+    image:image.value,
+    specialization:specialization.value,
+    experience:experience.value,
+    location:location1.value,
+    date:date.value,
+    slots:slots.value,
+    fee:fee.value
+   }
+   fetch("https://masaihospital-0so4.onrender.com/appointments",{
+    method:"POST",
+    headers:{
+        "Content-type":"application/json"
+    },
+    body:JSON.stringify(obj)
+   })
+   .then((res)=>{
+    return res.json();
+   })
+   .then((data)=>{
+    console.log(data)
+     alert(data.msg);
+    
+ 
+    
+    
+    
+   })
+ })
+</script>
+</body>
+</html>
+
+ 
