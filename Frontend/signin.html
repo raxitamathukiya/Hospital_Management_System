@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sidnin page</title>
+</head>
+<body>
+   <form action="">
+    <input type="text" placeholder="enter email" id="email">
+    <input type="text" placeholder="enter password" id="password">
+    <input type="text" placeholder="enter conform password" id="conform">
+    <input type="submit">
+
+   </form>
+</body>
+<script>
+    let form =document.querySelector('form')
+    let email=document.getElementById('email')
+    let password=document.getElementById('password')
+    let conform=document.getElementById('conform')
+    form.addEventListener('submit',async(e)=>{
+        e.preventDefault()
+        let obj={
+            name:name.value,
+            email:email.value,
+            conform:conform.value
+        }
+        let res=await fetch('',{
+            method:"POST",
+        headers:{
+            'Content-Type':'application/json'
+        },
+        })
+        let data=await res.json()
+        localStorage.setItem('token',data.token)
+    if(data){
+        window.location='./da.html'
+    }else{
+        alert('incorrect email or password')
+    }        
+    })
+</script>
+</html>
