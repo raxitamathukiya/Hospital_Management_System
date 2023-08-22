@@ -82,13 +82,61 @@ button:hover {
     <section id="signup-login">
         <div class="form-container">
             <h2>Doctors</h2>
+            <input type="text" id="search" placeholder="search by Doctor name">
+            <button id="btn">Search</button>
+            <h2>Filter by specialization</h2>
+            <select name="specialization" id="specialization">
+                <option value="">All</option>
+                <option value="Cardiologist">Cardiologist</option>
+                <option value="Dermatologist">Dermatologist</option>
+                <option value="Pediatrician">Pediatrician</option>
+                <option value="Psychiatrist ">Psychiatrist </option>
+            </select>
             <div id="main"></div>
         
         </div>
     </section>
 
     <script>
-      
+      let search=document.getElementById('search')
+      let sbtn=document.getElementById('btn')
+      let specialization=document.getElementById('specialization')
+
+      specialization.addEventListener('change',async()=>{
+            try {
+                if(specialization.value==""){
+                    fetchdata()
+                }else{
+                    let res=await fetch(`https://masaihospital-0so4.onrender.com/filter/${specialization.value}`,{
+                    method:"GET",
+                    headers:{
+                           "Content-type":"application/json"
+                        },
+                })
+                let data=await res.json()
+                display(data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+      })
+     
+      sbtn.addEventListener('click',async()=>{
+            try {
+                let res=await fetch(`https://masaihospital-0so4.onrender.com/search/?name=${search.value}`,{
+                    method:"GET",
+                    headers:{
+                           "Content-type":"application/json"
+                        },
+                })
+                let data=await res.json()
+                console.log(data)
+                display(data)
+            } catch (error) {
+                console.log(error)
+            }
+      })
+
 let main=document.getElementById('main')
 fetchdata()
 async function  fetchdata(){
@@ -102,8 +150,9 @@ async function  fetchdata(){
     }
 }
  function display(data){
+    main.innerHTML=" "
     data.forEach(element => {
-        let div=document.createElement("div")
+        let div1=document.createElement("div")
         let image=document.createElement('img')
         image.setAttribute('src',element.image)
         let h3=document.createElement('h3')
@@ -119,10 +168,25 @@ async function  fetchdata(){
         let slots= document.createElement('p')
         slots.innerText=`slots:${element.slots}`
         let fee= document.createElement('p')
-        fee.innerText=`fee:${element.fee}`
-
-        div.append(image,h3,specialization,experience,location,date,slots,fee)
-        main.append(div)
+        fee.innerText=`fee:${element.fee}` 
+        let del=document.createElement('button')
+        del.innerText="Delete"
+        del.addEventListener('click',async()=>{
+            try {
+                let res=await fetch(`https://masaihospital-0so4.onrender.com/delete/${element._id}`,{
+                    method:"DELETE",
+                    headers:{
+                           "Content-type":"application/json"
+                        },
+                })
+                alert('data deleted')
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        div1.append(image,h3,specialization,experience,location,date,slots,fee,del)
+        main.append(div1)
 
     });
  }
